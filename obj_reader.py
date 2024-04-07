@@ -30,7 +30,7 @@ for line in f:
         info = line.strip().split(" ")
         face1 = info[1].split("/")
         face2 = info[2].split("/")
-        face3 = info[4].split("/")
+        face3 = info[3].split("/")
         verts_idx = [int(face1[0]),int(face2[0]),int(face3[0])]
         verts_tex_idx = [int(face1[1]),int(face2[1]),int(face3[1])]
         verts_norm_idx = [int(face1[2]),int(face2[2]),int(face3[2])]
