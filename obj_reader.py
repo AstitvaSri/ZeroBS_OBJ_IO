@@ -1,14 +1,11 @@
 import os
-import trimesh
 import numpy as np
-import pymeshlab
-from tqdm import tqdm
 import pickle
 import re
 
-
-def ZeroBS_OBJ_READER(filepath):
-	f = open(filepath)
+# custom OBJ reader
+def ZEROBS_OBJ_READER(file_path):
+	f = open(file_path)
 
 	v = []
 	vt = []
@@ -45,6 +42,7 @@ def ZeroBS_OBJ_READER(filepath):
 				f_vt.append(verts_tex_idx)
 				f_vn.append(verts_norm_idx)
 
+	f.close()
 	v = np.array(v)
 	vt = np.array(vt)
 	vn = np.array(vn)
@@ -54,3 +52,39 @@ def ZeroBS_OBJ_READER(filepath):
 
 	mesh_info = {'v':v,'vt':vt,'vn':vn,'f_v':f_v,'f_vt':f_vt,'f_vn':f_vn}
 	return mesh_info
+
+# custom OBJ writer
+def ZEROBS_OBJ_WRITER(save_path,mesh_info):
+	if len(mesh_info['v'])>0:
+		with open(save_path,'w') as f:
+			for idx in range(len(mesh_info['v'])):
+				v0,v1,v2 = mesh_info['v'][idx]
+				line = f"v {v0} {v1} {v2}\n"
+				f.write(line)
+			f.close()
+	if len(mesh_info['vn'])>0:
+		with open(save_path,'a') as f:
+			for idx in range(len(mesh_info['vn'])):
+				v0,v1,v2 = mesh_info['vn'][idx]
+				line = f"vn {v0} {v1} {v2}\n"
+				f.write(line)
+			f.close()
+	if len(mesh_info['vt'])>0:
+		with open(save_path,'a') as f:
+			for idx in range(len(mesh_info['vt'])):
+				u,v = mesh_info['vt'][idx]
+				line = f"vt {u} {v}\n"
+				f.write(line)
+			f.close()
+	with open(save_path,'a') as f:
+		for idx in range(len(mesh_info['f_v'])):
+			fv0=fv1=fv2=fn0=fn1=fn2=fvt0=fvt1=fvt2 = ''
+			if len(mesh_info['f_v'])>0:
+				fv0, fv1, fv2 = mesh_info['f_v'][idx]
+			if len(mesh_info['f_vt'])>0:
+				fvt0, fvt1, fvt2 = mesh_info['f_vt'][idx]
+			if len(mesh_info['f_vn'])>0:
+				fn0, fn1, fn2 = mesh_info['f_vn'][idx]
+			line = f"f {fv0}/{fvt0}/{fn0} {fv1}/{fvt1}/{fn1} {fv2}/{fvt2}/{fn2}\n"
+			f.write(line)
+		f.close()
