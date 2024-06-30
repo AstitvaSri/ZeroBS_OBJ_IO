@@ -54,9 +54,12 @@ def ZEROBS_OBJ_READER(file_path):
 	return mesh_info
 
 # custom OBJ writer
-def ZEROBS_OBJ_WRITER(save_path,mesh_info):
+def ZEROBS_OBJ_WRITER(save_path,mesh_info, exists=False):
+	mode = 'w'
+	if exists:
+		mode = 'a'
 	if len(mesh_info['v'])>0:
-		with open(save_path,'w') as f:
+		with open(save_path,mode) as f:
 			for idx in range(len(mesh_info['v'])):
 				v0,v1,v2 = mesh_info['v'][idx]
 				line = f"v {v0} {v1} {v2}\n"
