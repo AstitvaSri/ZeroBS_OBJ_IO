@@ -30,7 +30,7 @@ def ZeroBS_OBJ_READER(filepath):
 			
 		elif line[0:2]=='vn':
 			info = line.strip().split(" ")
-			vt.append([float(info[1]),float(info[2]),float(info[3])])
+			vn.append([float(info[1]),float(info[2]),float(info[3])])
 
 		elif line[0:2]=='f ':
 			info = line.strip().split(" ")
