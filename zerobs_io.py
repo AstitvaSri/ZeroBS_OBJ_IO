@@ -4,6 +4,7 @@ import pickle
 import re
 
 # custom OBJ reader
+# custom OBJ reader
 def ZEROBS_OBJ_READER(file_path):
 	f = open(file_path)
 
@@ -34,11 +35,11 @@ def ZEROBS_OBJ_READER(file_path):
 			face1 = info[1].split("/")
 			face2 = info[2].split("/")
 			face3 = info[3].split("/")
-			verts_idx = [int(face1[0]),int(face2[0]),int(face3[0])]
+			verts_idx = [int(face1[0])-1, int(face2[0])-1, int(face3[0])-1]
 			f_v.append(verts_idx)
 			if min(len(face1),len(face2),len(face3))==3:
-				verts_tex_idx = [int(face1[1]),int(face2[1]),int(face3[1])]
-				verts_norm_idx = [int(face1[2]),int(face2[2]),int(face3[2])]
+				verts_tex_idx = [int(face1[1])-1, int(face2[1])-1, int(face3[1])-1]
+				verts_norm_idx = [int(face1[2])-1, int(face2[2])-1, int(face3[2])-1]
 				f_vt.append(verts_tex_idx)
 				f_vn.append(verts_norm_idx)
 
@@ -88,6 +89,6 @@ def ZEROBS_OBJ_WRITER(save_path,mesh_info, exists=False):
 				fvt0, fvt1, fvt2 = mesh_info['f_vt'][idx]
 			if len(mesh_info['f_vn'])>0:
 				fn0, fn1, fn2 = mesh_info['f_vn'][idx]
-			line = f"f {fv0}/{fvt0}/{fn0} {fv1}/{fvt1}/{fn1} {fv2}/{fvt2}/{fn2}\n"
+			line = f"f {fv0+1}/{fvt0+1}/{fn0+1} {fv1+1}/{fvt1+1}/{fn1+1} {fv2+1}/{fvt2+1}/{fn2+1}\n"
 			f.write(line)
 		f.close()
